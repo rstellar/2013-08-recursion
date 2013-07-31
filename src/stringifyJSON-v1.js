@@ -1,10 +1,9 @@
-// this is what you would do if you liked things to be easy:
+/* this is what you would do if you liked things to be easy:
 // var stringifyJSON = JSON.stringify;
 
 
 //stringify takes an object and parses each element and turns it into a string. 
 //ideas of how to do this:
-/*
 	1. iterate across each object
 	2. splice() object val
 	3. Apply string()
@@ -14,39 +13,32 @@
 */
 
 
-var stringifyJSON = function (obj, output) {
-	output = output || "";
+var stringifyJSON = function (obj) {
 
-	if (typeof(obj) === 'number') {
-		output += obj.toString();
-	} else if (typeof(obj) === "boolean") {
-		output += obj.toString();
-	} else if (typeof(obj) === "string") {
-		output += '"'+obj.toString()+'"';
-	} else if (obj === null){
-		output += "null";
-	} else if (typeof(obj) === 'object') {
-		output += "[";
-		debugger;
-		for (var i = 0; i < obj.length; i++) {
-			output = stringifyJSON(obj[i], output);
+	if (typeof(obj) == 'number') {
+	return obj.toString();
+	} else if (typeof(obj) == "boolean"){
+	return obj.toString();
+	} else if (typeof(obj) == "string"){
+	return '"'+obj.toString()+'"';
+	}else if (obj == null){
+	return "null";
+	}else if (typeof(obj) == 'object'){
+		if (Object.keys(obj).length == 0){
+			return "";
 		}
-		output += "]";
-
-
-		// if (Object.keys(obj).length === 0) {
-		// 	output += "";
-		// }
 		//Object.keys(obj)
-		// var keyz = Object.keys(obj)[0];
-		// var valz = obj[keyz];
-		// return valz+stringifyJSON(obj);
+		var keyz = Object.keys(obj)[0];
+		debugger;
+		var valz = obj[keyz];
+		delete obj[keyz];
+		return valz+stringifyJSON(obj);
 
 		//For each key i, stringify obj[key]
 		//concat to an intermediate result, return result
 	}
-	return output;
 };
+
 
 
 /*::::::::::::::SCRAP:::::::::::::::::::::
