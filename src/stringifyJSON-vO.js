@@ -15,40 +15,12 @@
 
 
 var stringifyJSON = function (obj, output) {
-    var output = output || "";
-
-
-    if ((typeof(obj) === "object") && !(obj instanceof Array) && !(obj === null)){
-	   var keys = [];
-
-	   console.log(output);///TEST////
-		for (var k in obj){
-			keys.push(k);
-		}
-		output += "{";
-
-		for (var i = 0; i < keys.length; i++){
-			if (typeof(obj[keys[i]]) === "function"){
-				break;
-			}
-			if (obj[keys[i]] === undefined){
-				break;
-			}
-
-			output += '"'+keys[i]+'"'
-			output += ":";
-			output += stringifyJSON(obj[keys[i]]);
-			if (keys.length > 1 && i < keys.length-1){
-			output += ",";
-			}
-		};
-		output += "}";
-		 console.log(output);///TEST////
+    output = output || "";
+	
+	if (typeof(obj) === "function"){
+		return "{}";
 	}
 
-
- 
-  	console.log("keys");
     if (typeof(obj) === 'number') {
         output += obj.toString();
     } else if (typeof(obj) === "boolean") {
@@ -57,20 +29,21 @@ var stringifyJSON = function (obj, output) {
         output += '"'+obj.toString()+'"';
 	} else if (obj === null){
         output += "null";
-	} else if (obj instanceof Array) {
-		console.log(output);
+        debugger;
+	} else if (obj instanceof Array || obj instanceof Object) {
+
         output += "[";
         for (var i = 0; i < obj.length; i++) {
             if (i>0){
 				output += ","
 			}
-			output = stringifyJSON(obj[i], output);
+			output = stringifyJSON(obj[i].toSource(), output);
 		}
-		output += "]";
-		console.log("After last conditional:"+ output);
 	}
 	return output;
 };
+ 
+
 /*::::::::::::::SCRAP:::::::::::::::::::::
 
 
